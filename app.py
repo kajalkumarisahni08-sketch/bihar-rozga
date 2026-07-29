@@ -416,4 +416,40 @@ elif menu == "🔑 4. पासवर्ड रिसेट":
                 else:
                     st.warning("⚠️ नया पासवर्ड खाली नहीं होना चाहिए और दोनों नए पासवर्ड मेल खाने चाहिए।")
             else:
-                st.error("❌ पुराना पासवर्ड गलत है!")
+                st.error("❌ पुराना पासवर्ड गलत है!")st.markdown("## 👷 बिहार के मेहनतकश कामगार")
+
+workers = [
+    {
+        "title": "🌾 खेत में काम करने वाले मजदूर",
+        "image": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80",
+        "desc": "खेती, बुवाई और कटाई का कार्य"
+    },
+    {
+        "title": "🏠 घर निर्माण मजदूर",
+        "image": "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80",
+        "desc": "घर बनाने और निर्माण कार्य"
+    },
+    {
+        "title": "🪚 बढ़ई (Carpenter)",
+        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+        "desc": "लकड़ी का फर्नीचर और दरवाजा बनाने का काम"
+    },
+    {
+        "title": "⚡ वेल्डर (Welder)",
+        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+        "desc": "लोहे की वेल्डिंग और फैब्रिकेशन"
+    },
+    {
+        "title": "🪣 बालू ढोने वाले मजदूर",
+        "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+        "desc": "बालू, ईंट और सीमेंट ढुलाई"
+    },
+]
+
+cols = st.columns(2)
+
+for i, worker in enumerate(workers):
+    with cols[i % 2]:
+        st.subheader(worker["title"])
+        st.image(worker["image"], use_container_width=True)
+        st.write(worker["desc"])
