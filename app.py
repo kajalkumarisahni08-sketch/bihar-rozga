@@ -416,4 +416,13 @@ elif menu == "🔑 4. पासवर्ड रिसेट":
                 else:
                     st.warning("⚠️ नया पासवर्ड खाली नहीं होना चाहिए और दोनों नए पासवर्ड मेल खाने चाहिए।")
             else:
-                st.error("❌ पुराना पासवर्ड गलत है!")
+                st.error("❌ पुराना पासवर्ड गलत है!")hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)admin_password = st.text_input("मास्टर ओनर कोड दर्ज करें:", type="password")
+if admin_password == "1234":
+    # आगे का कोड
