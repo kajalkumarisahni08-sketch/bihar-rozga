@@ -106,20 +106,44 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# --- कामगारों की तस्वीरें जोड़ी गई हैं ---
-st.markdown("### 🌟 हमारे मेहनतकश कामगार और मिस्त्री भाई (कार्यरत दृश्य):")
-col_img1, col_img2, col_img3, col_img4, col_img5 = st.columns(5)
+# --- बिहार के मेहनतकश कामगारों की विस्तृत सूची और दृश्य ---
+st.markdown("## 👷 बिहार के मेहनतकश कामगार")
 
-with col_img1:
-    st.image("https://images.unsplash.com/photo-1541888946425-d0fbb18f1f4d?w=400&q=80", caption="घर की ढलैया / निर्माण कार्य", use_container_width=True)
-with col_img2:
-    st.image("https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=400&q=80", caption="राजमिस्त्री ईंट जोड़ते हुए", use_container_width=True)
-with col_img3:
-    st.image("https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&q=80", caption="वेल्डर वेल्डिंग करते हुए", use_container_width=True)
-with col_img4:
-    st.image("https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&q=80", caption="कारपेंटर लकड़ी का काम", use_container_width=True)
-with col_img5:
-    st.image("https://images.unsplash.com/photo-1578874691223-64558a3ca096?w=400&q=80", caption="लेबर सामान/बोरी ढोते हुए", use_container_width=True)
+workers = [
+    {
+        "title": "🌾 खेत में काम करने वाले मजदूर",
+        "image": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80",
+        "desc": "खेती, बुवाई और कटाई का कार्य"
+    },
+    {
+        "title": "🏠 घर निर्माण मजदूर",
+        "image": "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80",
+        "desc": "घर बनाने और निर्माण कार्य"
+    },
+    {
+        "title": "🪚 बढ़ई (Carpenter)",
+        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+        "desc": "लकड़ी का फर्नीचर और दरवाजा बनाने का काम"
+    },
+    {
+        "title": "⚡ वेल्डर (Welder)",
+        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+        "desc": "लोहे की वेल्डिंग और फैब्रिकेशन"
+    },
+    {
+        "title": "🪣 बालू ढोने वाले मजदूर",
+        "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+        "desc": "बालू, ईंट और सीमेंट ढुलाई"
+    },
+]
+
+cols = st.columns(2)
+
+for i, worker in enumerate(workers):
+    with cols[i % 2]:
+        st.subheader(worker["title"])
+        st.image(worker["image"], use_container_width=True)
+        st.write(worker["desc"])
 
 st.markdown("---")
 
@@ -132,52 +156,23 @@ if "tender_database" not in st.session_state:
 if "admin_password" not in st.session_state:
     st.session_state.admin_password = "1234"
 
-# यहाँ मास्टर सीक्रेट कोड सेट किया गया है (आप इसे बाद में बदल भी सकते हैं)
-if "master_secret_code" not in st.session_state:
-    st.session_state.master_secret_code = "varun99"  # यह आपका गुप्त कोड है जिसे डालने पर ही एडमिन मेनू दिखेगा
-
-if "show_admin_menus" not in st.session_state:
-    st.session_state.show_admin_menus = False
-
-# साइडबार में सीक्रेट कोड डालने का बॉक्स (आम आदमियों को यह नहीं दिखेगा या वे यहाँ तक नहीं पहुँचेंगे)
-with st.sidebar:
-    st.markdown("### 🔐 ओनर गुप्त लॉगिन")
-    secret_input = st.text_input("मास्टर सीक्रेट कोड दर्ज करें:", type="password")
-    if st.button("अनलिमिटेड मेनू खोलें"):
-        if secret_input == st.session_state.master_secret_code:
-            st.session_state.show_admin_menus = True
-            st.success("✅ गुप्त मेनू अनलॉक हो गए हैं!")
-            st.rerun()
-        else:
-            st.error("❌ गलत गुप्त कोड!")
-            
-    if st.session_state.show_admin_menus:
-        if st.button("🔒 एडमिन मेनू छुपाएं (Lock Again)"):
-            st.session_state.show_admin_menus = False
-            st.rerun()
-
-# पोर्टल मेनू की लिस्ट तैयार करना (अगर गुप्त कोड डाला गया होगा तभी एडमिन और पासवर्ड वाले विकल्प दिखेंगे)
-menu_options = [
-    "📝 1. लेबर मिस्त्री रजिस्ट्रेशन", 
-    "📋 2. ठेकेदार टेंडर पोस्ट"
-]
-
-if st.session_state.show_admin_menus:
-    menu_options.append("🔒 3. एडमिन डैशबोर्ड")
-    menu_options.append("🔑 4. पासवर्ड रिसेट")
-
 # पोर्टल मेनू की हेडिंग को बड़े साइज़ और हरे रंग में दिखाना
 st.markdown('<p class="menu-main-title">📌 पोर्टल का मुख्य मेनू (यहाँ क्लिक करें):</p>', unsafe_allow_html=True)
 
-# मेनू विकल्प दिखाना
-menu = st.radio("", menu_options, horizontal=True, label_visibility="collapsed")
+# मेनू विकल्प (बड़े, पीले और चमकीले अक्षरों में)
+menu = st.radio("", [
+    "📝 1. लेबर मिस्त्री रजिस्ट्रेशन", 
+    "📋 2. ठेकेदार टेंडर पोस्ट", 
+    "🔒 3. एडमिन डैशबोर्ड", 
+    "🔑 4. पासवर्ड रिसेट"
+], horizontal=True, label_visibility="collapsed")
 
 st.markdown("---")
 
 # 1. लेबर / मिस्त्री रजिस्ट्रेशन फॉर्म
 if menu == "📝 1. लेबर मिस्त्री रजिस्ट्रेशन":
     st.markdown("## 📝 लेबर मिस्त्री रजिस्ट्रेशन फॉर्म")
-    st.info("💡 यहाँ लेबर अपनी सही जानकारी, सेल्फी और आधार कार्ड (JPG, PNG या PDF) अपलोड करेंगे।")
+    st.info("💡 यहाँ लेबर अपनी सही जानकारी, सेल्फी और आधार कार्ड (JPG, PNG या PDF) अपलोड करेंगे.")
     
     with st.form("complete_labor_form"):
         st.markdown("### 👤 व्यक्तिगत जानकारी (Personal Details)")
@@ -331,7 +326,7 @@ elif menu == "📋 2. ठेकेदार टेंडर पोस्ट":
             else:
                 st.warning("कृपया नाम, लोकेशन, मजदूरी राशि और कम से कम एक मिस्त्री/लेबर सूची में ज़रूर जोड़ें।")
 
-# 3. एडमिन डैशबोर्ड (यह तभी दिखेगा जब गुप्त कोड डाला जाएगा)
+# 3. एडमिन डैशबोर्ड
 elif menu == "🔒 3. एडमिन डैशबोर्ड":
     st.markdown("## 🔒 एडमिन डैशबोर्ड")
     
@@ -397,7 +392,7 @@ elif menu == "🔒 3. एडमिन डैशबोर्ड":
     else:
         st.error("❌ गलत पासवर्ड! यह डेटा पूरी तरह सुरक्षित है।")
 
-# 4. पासवर्ड रिसेट करने का विकल्प (यह भी तभी दिखेगा जब गुप्त कोड डाला जाएगा)
+# 4. पासवर्ड रिसेट करने का विकल्प
 elif menu == "🔑 4. पासवर्ड रिसेट":
     st.markdown("## 🔑 पासवर्ड रिसेट")
     
@@ -416,41 +411,4 @@ elif menu == "🔑 4. पासवर्ड रिसेट":
                 else:
                     st.warning("⚠️ नया पासवर्ड खाली नहीं होना चाहिए और दोनों नए पासवर्ड मेल खाने चाहिए।")
             else:
-                st.error("❌ पुराना पासवर्ड गलत है!")st.markdown(
-"## 👷 बिहार के मेहनतकश कामगार")
-
-workers = [
-    {
-        "title": "🌾 खेत में काम करने वाले मजदूर",
-        "image": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80",
-        "desc": "खेती, बुवाई और कटाई का कार्य"
-    },
-    {
-        "title": "🏠 घर निर्माण मजदूर",
-        "image": "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80",
-        "desc": "घर बनाने और निर्माण कार्य"
-    },
-    {
-        "title": "🪚 बढ़ई (Carpenter)",
-        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
-        "desc": "लकड़ी का फर्नीचर और दरवाजा बनाने का काम"
-    },
-    {
-        "title": "⚡ वेल्डर (Welder)",
-        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
-        "desc": "लोहे की वेल्डिंग और फैब्रिकेशन"
-    },
-    {
-        "title": "🪣 बालू ढोने वाले मजदूर",
-        "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
-        "desc": "बालू, ईंट और सीमेंट ढुलाई"
-    },
-]
-
-cols = st.columns(2)
-
-for i, worker in enumerate(workers):
-    with cols[i % 2]:
-        st.subheader(worker["title"])
-        st.image(worker["image"], use_container_width=True)
-        st.write(worker["desc"])
+                st.error("❌ पुराना पासवर्ड गलत है!")
